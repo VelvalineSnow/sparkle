@@ -25,7 +25,7 @@ OR OTHER DEALINGS IN THE SOFTWARE.
 
 import argparse
 import os
-from subprocess
+import subprocess
 
 __author__ = "Benjamin Williams"
 __copyright__ = "Copyright 2015, Benjamin Williams"
