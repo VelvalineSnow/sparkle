@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+
+require_relative File.expand_path( "..", File.dirname( __FILE__ ) ) + '/lib/sparkle'
+Sparkle.new( ARGV )
