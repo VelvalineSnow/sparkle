@@ -1,0 +1,117 @@
+#!/usr/bin/env python3
+
+'''
+The MIT License (MIT)
+Copyright (c) 2014 Benjamin Williams
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
+OR OTHER DEALINGS IN THE SOFTWARE.
+'''
+
+import argparse
+import os
+from subprocess
+
+__author__ = "Benjamin Williams"
+__copyright__ = "Copyright 2015, Benjamin Williams"
+__credits__ = ["Benjamin Williams"]
+__license__ = "MIT"
+__version__ = "1.0.0"
+__maintainer__ = "Benjamin Williams"
+__email__ = "velvaline.snow@gmail.com"
+__status__ = "Development"
+
+def compile_css_project():
+	subprocess.call(['sass', 'main.scss', 'compiled/project.css'])
+
+def compile_js_project():
+	print('Compiling...')
+	buffer = ''
+	path = os.getcwd() + '/includes'
+	files = [ f for f in os.listdir(path) if os.path.isfile(os.path.join(path,f)) ]
+	
+	for file in files:
+		print('Compiling ' + file + '...')
+		f = open('includes/' + file, 'r')
+		for line in f:
+			buffer += line
+		f.close()
+		
+	print('Compiling main.js...')
+	f = open('main.js', 'r')
+	for line in f:
+		buffer += line
+	f.close()
+	
+	f = open('compiled/project.js', 'w+')
+	f.write(buffer)
+	f.close()
+	
+	print('Project compiled!')
+
+def create_new_css_project(name):
+	if not os.path.exists(os.getcwd() + '/' + name):
+		os.makedirs(os.getcwd() + '/' + name)
+		os.makedirs(os.getcwd() + '/' + name + '/mixins')
+		os.makedirs(os.getcwd() + '/' + name + '/compiled')
+		fp = open(os.getcwd() + '/' + name + '/main.scss', 'w+')
+		fp.close()
+	else:
+		print('Project already exists!' + "\n" + 'Exiting...')
+		
+def create_new_js_project(name):
+	if not os.path.exists(os.getcwd() + '/' + name):
+		os.makedirs(os.getcwd() + '/' + name)
+		os.makedirs(os.getcwd() + '/' + name + '/includes')
+		os.makedirs(os.getcwd() + '/' + name + '/compiled')
+		fp = open(os.getcwd() + '/' + name + '/main.js', 'w+')
+	else:
+		print('Project already exists!' + "\n" + 'Exiting...')
+
+def create_new_project():
+	name = input('Project title: ')
+	
+	if name == '':
+		print('Project name required!' + "\n" + 'Exiting...')
+		return
+	
+	type = input('Project type(js/css): ')
+	
+	if type == 'css':
+		create_new_css_project(name)
+	elif type == 'js':
+		create_new_js_project(name)
+	else:
+		print('Incorrect project type.' + "\n" + 'Exiting...')
+		return
+
+parser = argparse.ArgumentParser()
+parser.add_argument('action', help='Set action.')
+parser.add_argument('-js', action='store_true', help='Compile a JavaScript project.')
+parser.add_argument('-css', action='store_true', help='Compile a SCSS project.')
+arguments = parser.parse_args()
+
+if arguments.action == 'compile':
+	if arguments.js == True:
+		compile_js_project()
+	elif arguments.css == True:
+		compile_css_project()
+	else:
+		print('Invalid project type specified.' + "\n" + 'Please use `sparkle --help` for more info.')
+elif arguments.action == 'create':
+	create_new_project()
