@@ -17,6 +17,7 @@ Clone Sparkle:
 Enter the Sparkle directory and give Sparkle permissions to execute:
 ```
 ~$ cd Sparkle
+~$ chmod a+x bin/sparkle
 ```
 
 Install sparkle so that it can be used:
