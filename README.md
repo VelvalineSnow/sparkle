@@ -7,7 +7,7 @@ A project creation and management system for Wikia Developers Wiki
 * MediaWiki-Gateway    `gem install mediawiki-gateway`
 
 # Installation
-Sparkle requires Python 3.x
+Sparkle requires Ruby 2.x
 
 Clone Sparkle:
 ```
